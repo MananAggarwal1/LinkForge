@@ -46,6 +46,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Root & health check endpoints
+                        .requestMatchers("/", "/health").permitAll()
                         // Public authentication endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         // Public URL redirection endpoints
