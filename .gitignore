@@ -1,0 +1,29 @@
+# Compiled Java class files and build artifacts
+backend/target/
+**/target/
+*.class
+
+# Node dependencies and build output
+frontend/node_modules/
+**/node_modules/
+frontend/dist/
+**/dist/
+
+# Logs and databases
+*.log
+*.sqlite
+data/
+mongo_data/
+redis_data/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and OS metadata
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db

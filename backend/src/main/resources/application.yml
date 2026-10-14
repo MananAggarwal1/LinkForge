@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/xml,text/plain
+
+spring:
+  application:
+    name: linkforge-backend
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/linkforge_db}
+      auto-index-creation: true
+    redis:
+      url: ${REDIS_URL:}
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      ssl:
+        enabled: ${REDIS_SSL:false}
+      timeout: 3000ms
+
+linkforge:
+  app:
+    # 256-bit secret key for HMAC-SHA256 signing
+    jwt-secret: ${JWT_SECRET:linkforge-super-secret-jwt-key-for-hmac-sha-256-signature-at-least-256-bits-long-security}
+    # 7 days expiration in milliseconds
+    jwt-expiration-ms: 604800000
+    base-redirect-url: ${BASE_REDIRECT_URL:http://localhost:8080/r/}
+    frontend-url: ${FRONTEND_URL:http://localhost:5173}
+  cache:
+    default-ttl-seconds: 86400
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
