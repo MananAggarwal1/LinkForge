@@ -20,5 +20,5 @@ COPY --from=build /app/target/linkforge-backend-1.0.0.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
 
-# Keep JVM memory within Render 512MB container limits and bind to $PORT
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-Dserver.port=${PORT}", "-jar", "app.jar"]
+# Use shell execution so ${PORT} expands dynamically to Render's assigned port
+ENTRYPOINT ["sh", "-c", "exec java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dserver.port=${PORT:-8080} -jar app.jar"]
