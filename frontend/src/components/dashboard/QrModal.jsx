@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { X, Download, Copy, Check, QrCode, Loader2 } from 'lucide-react';
-import api from '../../api/client';
+import api, { getEffectiveShortUrl } from '../../api/client';
 
 export const QrModal = ({ isOpen, link, onClose, onShowToast }) => {
   const [qrUrl, setQrUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+
+  const effectiveShortUrl = getEffectiveShortUrl(link);
 
   useEffect(() => {
     if (!isOpen || !link) return;
@@ -24,7 +26,8 @@ export const QrModal = ({ isOpen, link, onClose, onShowToast }) => {
       })
       .catch(() => {
         // Fallback to public QR code endpoint
-        const fallback = `/r/${link.shortCode}/qr?size=500`;
+        const apiBase = api.defaults.baseURL ? api.defaults.baseURL.replace(/\/+$/, '') : '';
+        const fallback = `${apiBase}/r/${link.shortCode}/qr?size=500`;
         setQrUrl(fallback);
       })
       .finally(() => {
@@ -52,7 +55,7 @@ export const QrModal = ({ isOpen, link, onClose, onShowToast }) => {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(link.shortUrl);
+    navigator.clipboard.writeText(effectiveShortUrl);
     setCopied(true);
     if (onShowToast) onShowToast('Copied to clipboard!', 'info');
     setTimeout(() => setCopied(false), 2000);
@@ -77,7 +80,7 @@ export const QrModal = ({ isOpen, link, onClose, onShowToast }) => {
           {link.title || link.shortCode}
         </h3>
         <p className="text-xs font-mono text-primary mb-5 truncate px-2">
-          {link.shortUrl}
+          {effectiveShortUrl}
         </p>
 
         {/* QR Code Container */}
@@ -92,7 +95,7 @@ export const QrModal = ({ isOpen, link, onClose, onShowToast }) => {
           ) : (
             <img
               src={qrUrl}
-              alt={`QR Code for ${link.shortUrl}`}
+              alt={`QR Code for ${effectiveShortUrl}`}
               className="w-full h-full object-contain"
             />
           )}

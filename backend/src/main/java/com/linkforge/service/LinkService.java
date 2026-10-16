@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -256,12 +259,38 @@ public class LinkService {
         return "Short Link";
     }
 
+    private String getEffectiveBaseRedirectUrl() {
+        if (baseRedirectUrl != null && !baseRedirectUrl.contains("localhost:8080") && !baseRedirectUrl.isBlank()) {
+            return baseRedirectUrl.endsWith("/") ? baseRedirectUrl : baseRedirectUrl + "/";
+        }
+        // Auto-detect public URL from current HTTP request headers (X-Forwarded-Host or Host)
+        try {
+            ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            if (attrs != null && attrs.getRequest() != null) {
+                HttpServletRequest req = attrs.getRequest();
+                String proto = req.getHeader("X-Forwarded-Proto");
+                if (proto == null || proto.isBlank()) {
+                    proto = req.getScheme();
+                }
+                String host = req.getHeader("X-Forwarded-Host");
+                if (host == null || host.isBlank()) {
+                    host = req.getHeader("Host");
+                }
+                if (host != null && !host.isBlank() && !host.contains("localhost")) {
+                    return proto + "://" + host + "/r/";
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return baseRedirectUrl;
+    }
+
     public LinkResponse mapToResponse(UrlMapping mapping) {
         LinkResponse response = new LinkResponse();
         response.setId(mapping.getId());
         response.setOriginalUrl(mapping.getOriginalUrl());
         response.setShortCode(mapping.getShortCode());
-        response.setShortUrl(baseRedirectUrl + mapping.getShortCode());
+        response.setShortUrl(getEffectiveBaseRedirectUrl() + mapping.getShortCode());
         response.setTitle(mapping.getTitle());
         response.setDescription(mapping.getDescription());
         response.setTags(mapping.getTags());

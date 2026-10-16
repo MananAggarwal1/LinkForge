@@ -19,7 +19,7 @@ import {
   ResponsiveContainer,
   CartesianGrid
 } from 'recharts';
-import api from '../../api/client';
+import api, { getEffectiveShortUrl } from '../../api/client';
 
 export const AnalyticsModal = ({ isOpen, link, onClose }) => {
   const [analytics, setAnalytics] = useState(null);
@@ -69,7 +69,7 @@ export const AnalyticsModal = ({ isOpen, link, onClose }) => {
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <span className="font-mono text-sm text-primary font-semibold">
-              {link.shortUrl}
+              {getEffectiveShortUrl(link)}
             </span>
             <span className="text-muted-foreground/60">•</span>
             <span className="text-xs text-muted-foreground truncate max-w-md">

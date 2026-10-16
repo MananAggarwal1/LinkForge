@@ -35,4 +35,24 @@ api.interceptors.response.use(
   }
 );
 
+export const getEffectiveShortUrl = (link) => {
+  if (!link) return '';
+  const rawUrl = typeof link === 'string' ? link : (link.shortUrl || '');
+  const shortCode = typeof link === 'object' ? link.shortCode : '';
+  const apiUrl = import.meta.env.VITE_API_URL || '';
+
+  if (rawUrl && /https?:\/\/localhost:8080/.test(rawUrl) && apiUrl && !apiUrl.includes('localhost:8080')) {
+    const cleanApi = apiUrl.replace(/\/+$/, '');
+    return rawUrl.replace(/https?:\/\/localhost:8080/, cleanApi);
+  }
+
+  if (rawUrl) return rawUrl;
+
+  if (shortCode && apiUrl && !apiUrl.includes('localhost:8080')) {
+    return `${apiUrl.replace(/\/+$/, '')}/r/${shortCode}`;
+  }
+
+  return rawUrl || (shortCode ? `http://localhost:8080/r/${shortCode}` : '');
+};
+
 export default api;

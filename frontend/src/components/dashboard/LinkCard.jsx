@@ -13,6 +13,7 @@ import {
   Pause,
   Play
 } from 'lucide-react';
+import { getEffectiveShortUrl } from '../../api/client';
 
 export const LinkCard = ({
   link,
@@ -26,10 +27,12 @@ export const LinkCard = ({
   const [copied, setCopied] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  const effectiveShortUrl = getEffectiveShortUrl(link);
+
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(link.shortUrl);
+    navigator.clipboard.writeText(effectiveShortUrl);
     setCopied(true);
-    if (onCopy) onCopy(link.shortUrl);
+    if (onCopy) onCopy(effectiveShortUrl);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -82,20 +85,20 @@ export const LinkCard = ({
           {/* Short URL with copy */}
           <div className="flex items-center gap-2">
             <span className="font-mono text-primary font-bold text-sm tracking-tight truncate">
-              {link.shortUrl}
+              {effectiveShortUrl}
             </span>
             <button
               onClick={handleCopyClick}
-              className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition"
+              className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer"
               title="Copy Short Link"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
             <a
-              href={link.shortUrl}
+              href={effectiveShortUrl}
               target="_blank"
               rel="noreferrer"
-              className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition"
+              className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer"
               title="Open Short Link in New Tab"
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -129,8 +132,8 @@ export const LinkCard = ({
           {/* Action Toolbar */}
           <div className="flex items-center gap-1 border border-border bg-card rounded-lg p-0.5">
             <button
-              onClick={() => onOpenQr(link)}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition"
+              onClick={() => onOpenQr({ ...link, shortUrl: effectiveShortUrl })}
+              className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition cursor-pointer"
               title="View & Download QR Code"
             >
               <QrCode className="w-4 h-4" />

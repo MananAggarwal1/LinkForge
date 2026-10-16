@@ -13,7 +13,7 @@ import {
   UserPlus,
   Loader2
 } from 'lucide-react';
-import api from '../../api/client';
+import api, { getEffectiveShortUrl } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 
 export const CreateLinkCard = ({ onLinkCreated, onOpenQr, onShowToast, onRequireAuth }) => {
@@ -290,37 +290,42 @@ export const CreateLinkCard = ({ onLinkCreated, onOpenQr, onShowToast, onRequire
                 <span className="text-[11px] text-muted-foreground font-semibold block uppercase tracking-wider">
                   Forged Link Ready
                 </span>
-                <a
-                  href={createdLink.shortUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm sm:text-base font-bold text-foreground hover:text-primary transition font-mono truncate block"
-                >
-                  {createdLink.shortUrl}
-                </a>
+                {(() => {
+                  const effectiveUrl = getEffectiveShortUrl(createdLink);
+                  return (
+                    <a
+                      href={effectiveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm sm:text-base font-bold text-foreground hover:text-primary transition font-mono truncate block"
+                    >
+                      {effectiveUrl}
+                    </a>
+                  );
+                })()}
               </div>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
               <button
-                onClick={() => handleCopy(createdLink.shortUrl)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:brightness-110 transition shadow-sm"
+                onClick={() => handleCopy(getEffectiveShortUrl(createdLink))}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:brightness-110 transition shadow-sm cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copied' : 'Copy'}</span>
               </button>
               <button
-                onClick={() => onOpenQr(createdLink)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-border bg-card text-foreground hover:bg-muted text-xs font-semibold transition"
+                onClick={() => onOpenQr({ ...createdLink, shortUrl: getEffectiveShortUrl(createdLink) })}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-border bg-card text-foreground hover:bg-muted text-xs font-semibold transition cursor-pointer"
               >
                 <QrCode className="w-3.5 h-3.5 text-primary" />
                 <span>QR Code</span>
               </button>
               <a
-                href={createdLink.shortUrl}
+                href={getEffectiveShortUrl(createdLink)}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2 rounded-lg border border-border bg-card text-muted-foreground hover:text-foreground transition"
+                className="p-2 rounded-lg border border-border bg-card text-muted-foreground hover:text-foreground transition cursor-pointer"
                 title="Test Redirect"
               >
                 <ExternalLink className="w-4 h-4" />

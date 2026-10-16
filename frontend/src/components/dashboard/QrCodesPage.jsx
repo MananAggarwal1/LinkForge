@@ -10,7 +10,7 @@ import {
   Sliders,
   Share2
 } from 'lucide-react';
-import api from '../../api/client';
+import api, { getEffectiveShortUrl } from '../../api/client';
 
 export const QrCodesPage = ({ links, onShowToast }) => {
   const [selectedLink, setSelectedLink] = useState(links?.[0] || null);
@@ -18,6 +18,8 @@ export const QrCodesPage = ({ links, onShowToast }) => {
   const [qrBlobUrl, setQrBlobUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const effectiveShortUrl = getEffectiveShortUrl(selectedLink);
 
   // Update selectedLink if links change and none selected
   useEffect(() => {
@@ -48,7 +50,8 @@ export const QrCodesPage = ({ links, onShowToast }) => {
       } catch (e) {
         // Fallback to public redirect QR endpoint
         if (active && selectedLink?.shortCode) {
-          setQrBlobUrl(`/r/${selectedLink.shortCode}/qr?size=${qrSize}`);
+          const apiBase = api.defaults.baseURL ? api.defaults.baseURL.replace(/\/+$/, '') : '';
+          setQrBlobUrl(`${apiBase}/r/${selectedLink.shortCode}/qr?size=${qrSize}`);
         }
       } finally {
         if (active) setLoading(false);
@@ -77,8 +80,8 @@ export const QrCodesPage = ({ links, onShowToast }) => {
   };
 
   const handleCopyLink = () => {
-    if (!selectedLink?.shortUrl) return;
-    navigator.clipboard.writeText(selectedLink.shortUrl);
+    if (!effectiveShortUrl) return;
+    navigator.clipboard.writeText(effectiveShortUrl);
     setCopied(true);
     if (onShowToast) onShowToast('Short link copied to clipboard!', 'info');
     setTimeout(() => setCopied(false), 2000);
@@ -148,7 +151,7 @@ export const QrCodesPage = ({ links, onShowToast }) => {
                     </div>
                     <div className="text-center">
                       <span className="font-mono text-xs font-bold text-foreground">
-                        {selectedLink?.shortUrl}
+                        {effectiveShortUrl}
                       </span>
                       <p className="text-[11px] text-muted-foreground mt-0.5 max-w-xs truncate">
                         Destination: {selectedLink?.originalUrl}

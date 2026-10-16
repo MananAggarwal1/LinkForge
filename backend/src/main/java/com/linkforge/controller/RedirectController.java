@@ -70,15 +70,36 @@ public class RedirectController {
                 .build();
     }
 
+    private String getEffectiveBaseRedirectUrl(HttpServletRequest req) {
+        if (baseRedirectUrl != null && !baseRedirectUrl.contains("localhost:8080") && !baseRedirectUrl.isBlank()) {
+            return baseRedirectUrl.endsWith("/") ? baseRedirectUrl : baseRedirectUrl + "/";
+        }
+        if (req != null) {
+            String proto = req.getHeader("X-Forwarded-Proto");
+            if (proto == null || proto.isBlank()) {
+                proto = req.getScheme();
+            }
+            String host = req.getHeader("X-Forwarded-Host");
+            if (host == null || host.isBlank()) {
+                host = req.getHeader("Host");
+            }
+            if (host != null && !host.isBlank() && !host.contains("localhost")) {
+                return proto + "://" + host + "/r/";
+            }
+        }
+        return baseRedirectUrl;
+    }
+
     @GetMapping("/{shortCode}/qr")
     public ResponseEntity<byte[]> getPublicQrCode(
             @PathVariable String shortCode,
-            @RequestParam(defaultValue = "350") int size) {
+            @RequestParam(defaultValue = "350") int size,
+            HttpServletRequest request) {
 
         UrlMapping mapping = urlMappingRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Short URL '" + shortCode + "' does not exist."));
 
-        String fullUrl = baseRedirectUrl + mapping.getShortCode();
+        String fullUrl = getEffectiveBaseRedirectUrl(request) + mapping.getShortCode();
         int dimension = Math.min(Math.max(size, 150), 1000);
         byte[] qrBytes = qrCodeService.generateQrCodePng(fullUrl, dimension, dimension);
 
