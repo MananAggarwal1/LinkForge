@@ -37,9 +37,6 @@ export const Navbar = ({ onOpenAuth }) => {
         <a href="#features" className="hover:text-foreground transition">
           Features
         </a>
-        <a href="#architecture" className="hover:text-foreground transition">
-          Architecture
-        </a>
         <a href="#faq" className="hover:text-foreground transition">
           FAQ
         </a>

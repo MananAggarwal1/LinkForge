@@ -13,7 +13,6 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { FeaturesSection } from './FeaturesSection';
-import { ArchitectureSection } from './landing/ArchitectureSection';
 import { FaqSection } from './landing/FaqSection';
 
 export const LandingPage = ({ onOpenAuth }) => {
@@ -154,9 +153,6 @@ export const LandingPage = ({ onOpenAuth }) => {
       {/* 6-Card Features Section */}
       <FeaturesSection />
 
-      {/* Architecture & System Design Section */}
-      <ArchitectureSection />
-
       {/* Interactive FAQ Section */}
       <FaqSection />
 
@@ -214,7 +210,6 @@ export const LandingPage = ({ onOpenAuth }) => {
             </h4>
             <ul className="space-y-2 text-xs text-muted-foreground">
               <li><a href="#features" className="hover:text-foreground transition">Features</a></li>
-              <li><a href="#architecture" className="hover:text-foreground transition">Architecture</a></li>
               <li><a href="#faq" className="hover:text-foreground transition">FAQ</a></li>
               <li><button onClick={() => onOpenAuth('register')} className="hover:text-foreground transition">Create Account</button></li>
             </ul>
@@ -250,7 +245,7 @@ export const LandingPage = ({ onOpenAuth }) => {
           <div className="flex items-center gap-4">
             <a href="#features" className="hover:text-foreground transition">Privacy</a>
             <a href="#features" className="hover:text-foreground transition">Terms</a>
-            <a href="#architecture" className="hover:text-foreground transition">System Design</a>
+            <a href="#faq" className="hover:text-foreground transition">FAQ</a>
           </div>
         </div>
       </footer>
