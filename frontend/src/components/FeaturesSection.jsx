@@ -25,7 +25,7 @@ export const FeaturesSection = () => {
     },
     {
       icon: Zap,
-      title: 'Redis-fast redirects',
+      title: 'Ultra-fast redirects',
       desc: 'Cached lookups served in milliseconds.',
     },
     {

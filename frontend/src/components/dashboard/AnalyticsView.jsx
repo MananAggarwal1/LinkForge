@@ -96,8 +96,8 @@ export const AnalyticsView = ({ links, onRequireAuth }) => {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* 4 KPI Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 3 KPI Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-semibold text-muted-foreground">Total Clicks</span>
@@ -121,19 +121,6 @@ export const AnalyticsView = ({ links, onRequireAuth }) => {
               </div>
               <span className="text-[10px] text-muted-foreground font-medium block mt-1">
                 Unique IP telemetry
-              </span>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-muted-foreground">Redirect Speed</span>
-                <span className="text-xs font-mono font-bold text-primary">&lt;5ms</span>
-              </div>
-              <div className="text-2xl sm:text-3xl font-display font-extrabold text-primary">
-                Redis
-              </div>
-              <span className="text-[10px] text-muted-foreground font-medium block mt-1">
-                In-memory Cache-Aside
               </span>
             </div>
 

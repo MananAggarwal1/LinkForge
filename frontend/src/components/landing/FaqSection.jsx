@@ -7,7 +7,7 @@ export const FaqSection = () => {
   const faqs = [
     {
       q: 'How does LinkForge achieve sub-5ms redirection speed?',
-      a: 'LinkForge utilizes the Redis Cache-Aside pattern. Popular links are cached in-memory with a 24-hour TTL, allowing our high-throughput redirect controller to return HTTP 302 redirects in under 5 milliseconds without hitting MongoDB.'
+      a: 'LinkForge utilizes high-speed in-memory caching. Popular links are cached in RAM with a 24-hour TTL, allowing our high-throughput redirect controller to return HTTP 302 redirects in under 5 milliseconds without database bottlenecks.'
     },
     {
       q: 'Are custom slugs and aliases completely free?',

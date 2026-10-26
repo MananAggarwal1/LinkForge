@@ -160,20 +160,6 @@ export const Sidebar = ({
         })}
       </nav>
 
-      {/* System Telemetry Status Pill */}
-      <div className="p-4 mx-3 mb-3 rounded-xl border border-border bg-card/60 text-[11px]">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="font-semibold text-foreground flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Redis Cache-Aside
-          </span>
-          <span className="font-mono text-primary font-bold text-[10px]">&lt;5ms</span>
-        </div>
-        <p className="text-[10px] text-muted-foreground leading-tight">
-          In-memory sub-millisecond redirection lookup is active.
-        </p>
-      </div>
-
       {/* Footer Profile & Controls */}
       <div className="p-3 border-t border-border/80 flex items-center justify-between gap-2 bg-card/40">
         <div className="flex items-center gap-2.5 overflow-hidden min-w-0">

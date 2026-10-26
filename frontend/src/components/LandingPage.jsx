@@ -101,10 +101,10 @@ export const LandingPage = ({ onOpenAuth }) => {
 
                 <div>
                   <label className="text-xs font-semibold text-muted-foreground block mb-1.5">
-                    Cache Strategy & Protection
+                    Speed & Protection
                   </label>
                   <div className="h-10 rounded-lg border border-input bg-background/70 px-3 flex items-center justify-between text-xs text-muted-foreground select-none">
-                    <span>Redis Cache-Aside (&lt;5ms)</span>
+                    <span>Sub-5ms Global Redirection</span>
                     <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">Active</span>
                   </div>
                 </div>
@@ -200,7 +200,7 @@ export const LandingPage = ({ onOpenAuth }) => {
               <span>Link<span className="text-primary">Forge</span></span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Enterprise-grade URL shortener with sub-5ms Redis caching, multi-tenant isolation, and dynamic QR code generation.
+              Enterprise-grade URL shortener with sub-5ms edge caching, multi-tenant isolation, and dynamic QR code generation.
             </p>
           </div>
 

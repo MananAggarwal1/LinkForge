@@ -109,13 +109,13 @@ export const AnalyticsModal = ({ isOpen, link, onClose }) => {
               </div>
               <div className="rounded-2xl p-4 border border-border bg-card shadow-card col-span-2 sm:col-span-1">
                 <span className="text-xs text-muted-foreground font-semibold block mb-1">
-                  Cache Performance
+                  Status
                 </span>
                 <span className="text-2xl sm:text-3xl font-extrabold text-primary font-display">
-                  &lt; 5ms
+                  {link.active ? 'Active' : 'Paused'}
                 </span>
                 <span className="text-[10px] text-muted-foreground uppercase block font-bold">
-                  Redis In-Memory Hit
+                  {link.passwordProtected ? 'Password Protected' : 'Public Link'}
                 </span>
               </div>
             </div>
