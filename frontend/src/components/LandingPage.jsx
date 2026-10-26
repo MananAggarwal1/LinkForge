@@ -187,7 +187,7 @@ export const LandingPage = ({ onOpenAuth }) => {
 
       {/* Multi-Column Modern Footer */}
       <footer className="border-t border-border bg-card/40 py-12 px-5 text-sm">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 font-display text-base font-bold text-foreground mb-3">
               <span className="grid h-6 w-6 place-items-center rounded-md bg-gradient-primary text-white">
@@ -212,18 +212,6 @@ export const LandingPage = ({ onOpenAuth }) => {
               <li><a href="#features" className="hover:text-foreground transition">Features</a></li>
               <li><a href="#faq" className="hover:text-foreground transition">FAQ</a></li>
               <li><button onClick={() => onOpenAuth('register')} className="hover:text-foreground transition">Create Account</button></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-semibold text-xs uppercase tracking-wider text-foreground mb-3">
-              Tech Stack
-            </h4>
-            <ul className="space-y-2 text-xs text-muted-foreground">
-              <li><span>React 18 & Vite</span></li>
-              <li><span>Spring Boot 3 & Java 21</span></li>
-              <li><span>Redis (Cache-Aside)</span></li>
-              <li><span>MongoDB Database</span></li>
             </ul>
           </div>
 
